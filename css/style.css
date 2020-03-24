@@ -1,0 +1,32 @@
+@font-face {
+    font-family: "OfficinaSansBook";
+    src: url("font/OfficinaSerifBookC.eot");
+    src: url("font/OfficinaSerifBookC.eot?#iefix")format("embedded-opentype"),
+    url("font/OfficinaSerifBookC.woff") format("woff"),
+    url("font/OfficinaSerifBookC.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+body
+{
+    background-color: black;
+}
+
+div.elem
+{
+    position: relative;
+    left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    background-color: white;
+}
+
+p.greetings
+{
+    font-family: "OfficinaSansBook", sans-serif;
+    margin: 0;
+    color : red;
+}
