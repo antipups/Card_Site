@@ -22,11 +22,19 @@ div.elem
     align-items: center;
     height: 200px;
     background-color: white;
+    border-radius: 25px;
+}
+
+.blink {
+    animation: blink 2s infinite;
+}
+@keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 p.greetings
 {
     font-family: "OfficinaSansBook", sans-serif;
     margin: 0;
-    color : red;
 }

@@ -29,7 +29,10 @@ function animate({duration, draw, timing}) {
         else
         {
             elem.style.width = '60%';   // костыль?)) нит)))))
-            write_title();
+            if (document.getElementsByClassName("greetings").length === 0)
+            {
+                write_title();    // если приветствия ещё не было
+            }
         }
 
     });
@@ -40,7 +43,24 @@ function write_title()
     let work_div = document.getElementById('elem');
     let new_title = document.createElement('p');
     new_title.textContent = "Здравствуйте";
-    new_title.className = 'greetings';
-    new_title.style.fontSize = 0.3 * 200 + "px"
+    new_title.classList.add('greetings');
+    new_title.style.fontSize = 0.5 * 200 + "px";
+    new_title.style.color = 'rgba(0,0,0,0)';
     work_div.appendChild(new_title);
+
+    animate
+    (
+        {
+            duration: 3000,                     // длительность всей анимации
+            timing: function(timeFraction)      // время наростания (как энергично она будет происходить)
+            {
+                return Math.pow(timeFraction, 5);
+            },
+            draw:function(progress)            // сама рисовалка
+            {
+                new_title.style.color = 'rgba(0,0,0,' + +(progress * 100) + ')';
+            }
+        }
+    );
+
 }
