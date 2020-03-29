@@ -23,6 +23,7 @@ div.elem
     align-items: center;
     background-color: white;
     border-radius: 25px;
+    flex-direction: column;
 }
 
 .blink {
@@ -33,10 +34,15 @@ div.elem
     to { opacity: 0; }
 }
 
-p.greetings
+p
 {
     position: relative;
     font-family: "OfficinaSansBook", sans-serif;
     margin: 0;
     color:black;
+}
+
+p.disable_for_animations
+{
+    background-color: deepskyblue;
 }

@@ -34,11 +34,7 @@ function animate({duration, draw, timing}) {
             }
             else if (!(document.getElementsByClassName("greetings")[0].classList.contains('disable_for_animations')))
             {
-                write_farewell();
-            }
-            else
-            {
-                
+                setTimeout(write_name, 1000);
             }
         }
 
@@ -52,37 +48,19 @@ function write_greetings()
     new_title.textContent = "Здравствуйте";
     new_title.classList.add('greetings');
     new_title.style.fontSize = "750%";
-    new_title.style.bottom = '100%'
+    new_title.style.color = 'rgba(0, 0, 0, 0)'
     work_div.appendChild(new_title);
-
-    // для отскоков с другой стороны (1-)
-    function makeEaseOut(timing) {
-        return function(timeFraction) {
-            return 1 - timing(1 - timeFraction);
-        }
-    }
-
-    // для просто отскоков
-    function bounce(timeFraction) {
-        for (let a = 0, b = 1, result; 1; a += b, b /= 2) {
-            if (timeFraction >= (7 - 4 * a) / 11) {
-                return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
-            }
-        }
-    }
-
-    let bounceEaseOut = makeEaseOut(bounce);
 
     animate
     (
         {
             duration: 1000,                     // длительность всей анимации
-            timing: bounceEaseOut,      // время наростания (как энергично она будет происходить)
+            timing: function linear(timeFraction) {
+                return timeFraction;
+            },      // время наростания (как энергично она будет происходить)
             draw:function(progress)            // сама рисовалка
             {
-                // new_title.style.color = 'rgba(0,0,0,' + progress + ')';
-                new_title.style.bottom = (1 - progress) * 100 + "%";
-                console.log((1 - progress) * 100)
+                new_title.style.color = 'rgba(0,0,0,' + progress + ')';
             }
         }
     );
@@ -90,26 +68,116 @@ function write_greetings()
 }
 
 
-function write_farewell()
+function write_name()
 {
-    let work_div = document.getElementById('elem');
     let greetings = document.getElementsByTagName('p')[0];
-    // animate
-    // (
-    //     {
-    //         duration: 3000,                     // длительность всей анимации
-    //         timing: function(timeFraction)      // время наростания (как энергично она будет происходить)
-    //         {
-    //             return Math.pow(timeFraction, 5);
-    //         },
-    //         draw:function(progress)            // сама рисовалка
-    //         {
-    //             if (1 - progress * 1.8 <= 0)
-    //             {
-    //                 greetings.classList.add("disable_for_animations");
-    //             }
-    //             greetings.style.color = 'rgba(0,0,0,' + +(1 - progress * 1.8) + ')';
-    //         }
-    //     }
-    // );
+    greetings.classList.add("disable_for_animations");
+    greetings.style.color = "white";
+    setTimeout(function () {greetings.textContent = "";}, 1000);
+    setTimeout(function ()
+                      {
+                          greetings.style.backgroundColor = "white";
+                          greetings.style.color = "black";
+                      },
+               1000);
+    setTimeout(animation_of_write_nickname, 1000, greetings);
+}
+
+
+// написание "Сайт визитка", имитацией пользователем
+function animation_of_write_nickname(greetings)
+{
+    let string = "Сайт-визитка:";
+    animate
+    (
+        {
+            duration: 1000,                     // длительность всей анимации
+            timing: function linear(timeFraction)
+            {
+                return timeFraction;
+            },      // время наростания (как энергично она будет происходить)
+            draw:function(progress)            // сама рисовалка
+            {
+                greetings.textContent = string.slice(0, progress * 100 / 7.69);
+                if (progress === 1)
+                {
+                    setTimeout(write_nickname, 1000, greetings);
+                }
+            }
+        }
+    );
+}
+
+
+// написание никнейма, перематыванием записей, уменьшением сайта визитки и увеличением ника
+function write_nickname(greetings)
+{
+    let work_div = document.getElementById("elem");
+    let nickname = document.createElement("p");
+    nickname.style.color = "black";
+    nickname.textContent = "antipups'a";
+    nickname.style.fontSize = "0%"
+    work_div.appendChild(nickname)
+    animate
+    (
+        {
+            duration: 3000,                     // длительность всей анимации
+            timing: function (timeFraction)
+            {
+                for (let a = 0, b = 1, result; 1; a += b, b /= 2)
+                {
+                    if (timeFraction >= (7 - 4 * a) / 11)
+                    {
+                        return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+                    }
+                }
+            },      // время наростания (как энергично она будет происходить)
+            draw:function(progress)            // сама рисовалка
+            {
+                greetings.style.top = progress * -95 + "px";
+                if(+greetings.offsetTop <= +work_div.offsetTop)
+                {
+                    if (+greetings.style.fontSize.slice(0, -1) >= 50)
+                    {
+                        if ((1 - progress) * 1000 <= 750)
+                        {
+                            greetings.style.fontSize = (1 - progress * 2) * 1000 + "%";
+                            nickname.style.fontSize = (progress) * 1000 + "%"
+                        }
+                    }
+                    else greetings.style.fontSize = "0%"
+                }
+                if (progress === 1)
+                {
+                    setTimeout(write_describe, 1000, nickname)
+                }
+            }
+        }
+    );
+}
+
+// начало описания, удаление никнейма и приступание к BODY
+function write_describe(nickname)
+{
+    let work_div = document.getElementById("elem");
+    let size_nickname = +nickname.style.fontSize.slice(0, -1);
+    let width_div = +work_div.style.width.slice(0, -1);
+    animate
+    (
+        {
+            duration: 1000,                     // длительность всей анимации
+            timing: function linear(timeFraction)
+            {
+                return timeFraction;
+            },      // время наростания (как энергично она будет происходить)
+            draw:function(progress)            // сама рисовалка
+            {
+
+                nickname.style.fontSize = (1 - progress) * size_nickname + "%";
+                work_div.style.left = 20 + progress * 30 + "%";
+                work_div.style.height = (1 - progress) * 200 + "px";
+                work_div.style.width = (1 - progress) * width_div + "%";
+            }
+        }
+    );
 }
