@@ -1,3 +1,5 @@
+document.body.style.height = document.documentElement.clientHeight - 100 + "px"   // чтоб нормально работал height
+
 animate({                               // запускаем всё
     duration: 3000,                     // длительность всей анимации
     timing: function(timeFraction)      // время наростания (как энергично она будет происходить)
@@ -7,6 +9,7 @@ animate({                               // запускаем всё
     draw: function(progress)            // сама рисовалка
     {
         elem.style.width = progress * 60 + '%';
+        elem.style.height = progress * 30 + '%';
     }
 });
 
@@ -22,16 +25,10 @@ function animate({duration, draw, timing}) {
 
         draw(progress);
 
-        if (progress < 1)
-        {
-            requestAnimationFrame(animate);
-        }
+        if (progress < 1) requestAnimationFrame(animate);
         else
         {
-            if (document.getElementsByClassName("greetings").length === 0)
-            {
-                write_greetings();    // если приветствия ещё не было
-            }
+            if (document.getElementsByClassName("greetings").length === 0) write_greetings();    // если приветствия ещё не было
             else if (!(document.getElementsByClassName("greetings")[0].classList.contains('disable_for_animations')))
             {
                 setTimeout(write_name, 1000);
@@ -99,10 +96,7 @@ function animation_of_write_nickname(greetings)
             draw:function(progress)            // сама рисовалка
             {
                 greetings.textContent = string.slice(0, progress * 100 / 7.69);
-                if (progress === 1)
-                {
-                    setTimeout(write_nickname, 1000, greetings);
-                }
+                if (progress === 1) setTimeout(write_nickname, 1000, greetings);
             }
         }
     );
@@ -147,10 +141,7 @@ function write_nickname(greetings)
                     }
                     else greetings.style.fontSize = "0%"
                 }
-                if (progress === 1)
-                {
-                    setTimeout(write_describe, 1000, nickname)
-                }
+                if (progress === 1) setTimeout(write_describe, 1000, nickname)
             }
         }
     );
@@ -177,7 +168,10 @@ function write_describe(nickname)
                 work_div.style.left = 20 + progress * 30 + "%";
                 work_div.style.height = (1 - progress) * 200 + "px";
                 work_div.style.width = (1 - progress) * width_div + "%";
+                if (progress === 1) work_div.remove()
             }
         }
     );
 }
+
+
