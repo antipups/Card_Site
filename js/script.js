@@ -8,6 +8,7 @@ animate({                               // запускаем всё
     },
     draw: function(progress)            // сама рисовалка
     {
+        elem.style.left = progress * 20 + "%"
         elem.style.width = progress * 60 + '%';
         elem.style.height = progress * 30 + '%';
     }
@@ -165,7 +166,8 @@ function write_describe(nickname)
             {
 
                 nickname.style.fontSize = (1 - progress) * size_nickname + "%";
-                work_div.style.left = 20 + progress * 30 + "%";
+                // work_div.style.left = 20 + progress * 30 + "%";
+                work_div.style.left = 20 + progress * 80 + "%"
                 work_div.style.height = (1 - progress) * 200 + "px";
                 work_div.style.width = (1 - progress) * width_div + "%";
                 if (progress === 1) work_div.remove()
@@ -173,5 +175,7 @@ function write_describe(nickname)
         }
     );
 }
+
+
 
 
