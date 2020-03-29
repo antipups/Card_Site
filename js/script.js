@@ -45,7 +45,7 @@ function write_greetings()
     let new_title = document.createElement('p');
     new_title.textContent = "Здравствуйте";
     new_title.classList.add('greetings');
-    new_title.style.fontSize = "750%";
+    new_title.style.fontSize = (document.documentElement.clientHeight - 100) / 100 * 30 + document.documentElement.clientWidth  / 250 * 60 + "%";
     new_title.style.color = 'rgba(0, 0, 0, 0)'
     work_div.appendChild(new_title);
 
@@ -134,7 +134,7 @@ function write_nickname(greetings)
                 {
                     if (+greetings.style.fontSize.slice(0, -1) >= 50)
                     {
-                        if ((1 - progress) * 1000 <= 750)
+                        if ((1 - progress) * 1000 <= (document.documentElement.clientHeight - 100) / 100 * 30 + document.documentElement.clientWidth  / 250 * 60)
                         {
                             greetings.style.fontSize = (1 - progress * 2) * 1000 + "%";
                             nickname.style.fontSize = (progress) * 1000 + "%"
